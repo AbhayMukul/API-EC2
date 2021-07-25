@@ -19,7 +19,7 @@ var db = mysql.createConnection({
 
 // check db connection
 db.connect((err) => {
-    if (err){
+    if (err) {
         console.log(err);
     }
     else {
@@ -59,7 +59,7 @@ app.get('/api/get/customer', (req, res) => {
 
 
     db.query(sql, (err, result) => {
-        if (err){
+        if (err) {
             console.log(err);
         }
         res.send(result);
@@ -77,9 +77,26 @@ app.post('/api/create/NewCustomer', (req, res) => {
 
     // run query
     db.query(sql, (err, result) => {
-        if (err){
+        if (err) {
             console.log(err);
         }
         res.send("data inserted");
+    })
+})
+
+
+app.put('/api/customer/changeName', (req, res) => {
+    console.log("change name of id : ", req.body.id);
+    console.log("change name to : ", req.body.name);
+
+    let sql = `  UPDATE customers SET name = '${req.body.name}'
+                 WHERE id = '${req.body.id}'`;
+
+    db.query(sql,(err,result) => {
+        if(err) {
+            throw err;
+        }
+
+        res.send(result);
     })
 })
